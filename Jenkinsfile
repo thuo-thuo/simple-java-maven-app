@@ -35,6 +35,7 @@ pipeline {
         }
         }
         stage('Push') {
+            agent docker
         steps {
             sh 'docker push hello-world'
         }
