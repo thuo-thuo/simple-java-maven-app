@@ -30,6 +30,7 @@ pipeline {
             }
         }
         stage('Push') {
+            agent any
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'HUB_USER', passwordVariable: 'HUB_TOKEN')]) {                      
                     sh '''
