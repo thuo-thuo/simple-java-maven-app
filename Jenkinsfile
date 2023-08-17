@@ -29,10 +29,14 @@ pipeline {
                 sh './jenkins/scripts/deliver.sh'
             }
         }
-        stage('Push image') {
-                withDockerRegistry([ credentialsId: "dockerhubaccount", url: "" ]) {
-                dockerImage.push()
+        stage('Push') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'HUB_USER', passwordVariable: 'HUB_TOKEN')]) {                      
+                    sh '''
+                        docker login -u $HUB_USER -p $HUB_TOKEN 
+                        docker image push $HUB_USER/hello-world
+                    '''
                 }
-            } 
+            }
 }
 }
